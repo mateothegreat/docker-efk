@@ -21,5 +21,22 @@ services:
     depends_on:
       - elasticsearch
 
+  fluentd:
+    build: ./fluentd
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 100m
+        max-file: "5"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
 networks:
   elk:
